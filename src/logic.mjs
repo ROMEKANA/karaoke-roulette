@@ -6,7 +6,8 @@ export function bagFor(state) {
 }
 export function draw(state) {
  const bag = bagFor(state);
- const person = state.people.find(p => p.id === bag[Math.floor(Math.random()*bag.length)]);
+ const chosenId = bag[Math.floor(Math.random() * bag.length)];
+ const person = state.people.find(p => p.id === chosenId);
  if (!person) return null;
  const songs = person.songs.filter(s => !s.used);
  return {personId:person.id, songId:songs[Math.floor(Math.random()*songs.length)].id};
