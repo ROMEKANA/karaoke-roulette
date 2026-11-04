@@ -13,3 +13,9 @@ test('manual confirmation consumes turn and used song; empty members excluded',(
  assert.equal(confirm(s,{personId:'a',songId:'a1'}),s);
 });
 test('no available songs returns null',()=>{const s=initial();s.people.forEach(p=>p.songs.forEach(x=>x.used=true));assert.equal(draw(s),null)});
+test('draw samples a single person once, avoiding inconsistent random comparisons',()=>{
+ const s=initial();s.bag=['a','b','c'];
+ const originalRandom=Math.random;const values=[.99,.99,.01];let i=0;
+ Math.random=()=>values[Math.min(i++,values.length-1)];
+ try {assert.equal(draw(s).personId,'c');} finally {Math.random=originalRandom;}
+});
